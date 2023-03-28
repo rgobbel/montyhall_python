@@ -12,9 +12,9 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--doors', type=int, default=3, help='Total number of doors')
-    parser.add_argument('--opens', type=int, default=1, help='Number of doors that Monty opens')
-    parser.add_argument('--trials', type=int, default=1000000, help='Number of trials')
+    parser.add_argument('-d', '--doors', type=int, default=3, help='Total number of doors')
+    parser.add_argument('-o', '--opens', type=int, default=1, help='Number of doors that Monty opens')
+    parser.add_argument('-t', '--trials', type=int, default=1000000, help='Number of trials')
     args = parser.parse_args()
 
     n_doors:int = args.doors
@@ -40,11 +40,9 @@ def main():
             if first_choice == car_door:
                 pass # lose
             else: # then car_door is in 1...n_doors-1
-                if car_door <= i_last:  # car door is in final range
-                    final_choice = random.randint(1, i_last)
-                else:  # car door is beyond final range
-                    choice_list = list(range(1, i_last)) + [car_door]
-                    final_choice = random.choice(choice_list)
+                final_choice = random.randint(1, i_last)
+                if car_door > i_last and final_choice == i_last:
+                    final_choice = car_door
 
         win:bool = final_choice == car_door
 
